@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { evaluate } from "mathjs";
 import continentsWithAnimals from "./AnimalArray";
+import quotes from "./Quotes";
 
 import "./App.css";
 
@@ -64,9 +65,17 @@ function App() {
 
         const mathPattern = /^[0-9+\-*/().\s]+$/;
 
+        if (valueInput.toLowerCase().includes("quote")) {
+            const randomNumber = Math.floor(Math.random() * 1000);
+            setAnswerInput(randomNumber);
+            console.log(randomNumber);
+            return;
+        }
+
         if (valueInput.toLowerCase().includes("number")) {
-            const randomNumber = Math.floor();
-            console.log("number");
+            const randomNumber = Math.floor(Math.random() * 1000);
+            setAnswerInput(randomNumber);
+            console.log(randomNumber);
             return;
         }
 
