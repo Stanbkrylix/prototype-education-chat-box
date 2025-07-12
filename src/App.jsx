@@ -1,24 +1,109 @@
 import { useState } from "react";
 import { evaluate } from "mathjs";
+import continentsWithAnimals from "./AnimalArray";
 
 import "./App.css";
 
 function App() {
-    const [count, setCount] = useState(0);
     const [valueInput, setValueInput] = useState("");
+    const [continent, setContinent] = useState([]);
+    const [answerInput, setAnswerInput] = useState("");
 
     function handleInputChange(e) {
         setValueInput(e.target.value);
     }
 
+    function selectContinent() {
+        if (valueInput.toLowerCase().includes("asia")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "asia"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("africa")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "africa"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("europe")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "europe"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("south america")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "south america"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("north america")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "north america"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("australia")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "australia"
+            );
+            setContinent(continentValue);
+        } else if (valueInput.toLowerCase().includes("antarctica")) {
+            const continentValue = continentsWithAnimals.filter(
+                (item) => item.name.toLowerCase() === "antarctica"
+            );
+            setContinent(continentValue);
+        } else {
+            alert("Please type a question, examples are in the suggestion box");
+            setContinent([]);
+            return;
+        }
+    }
+
     function handleClick() {
         if (!valueInput) {
-            alert("Please type a question, example are in the suggestion box");
+            alert("Please type a question, examples are in the suggestion box");
             return;
         }
 
-        console.log(valueInput);
+        const mathPattern = /^[0-9+\-*/().\s]+$/;
+
+        if (valueInput.toLowerCase().includes("number")) {
+            const randomNumber = Math.floor();
+            console.log("number");
+            return;
+        }
+
+        if (valueInput.toLowerCase().includes("animal")) {
+            selectContinent();
+            console.log(continent);
+            return;
+        }
+
+        if (!mathPattern.test(valueInput.trim())) {
+            alert(
+                "Please type a valid math expression like 4+5 or 2 * (3 + 1)"
+            );
+            return;
+        }
+
+        if (valueInput.includes(valueInput[0])) {
+            calculate(valueInput);
+            return;
+        }
+
+        alert("Please type a question, examples are in the suggestion box");
+        // console.log(typeof valueInput === "number");
+        // console.log(!isNaN(+valueInput));
+        // console.log(valueInput.includes(valueInput[0]));
     }
+    function calculate(value) {
+        try {
+            const answer = evaluate(value);
+            console.log(answer);
+        } catch (error) {
+            alert(
+                `Error,(${valueInput}) is not recommended, Please type a question, example are in the suggestion box`
+            );
+        }
+    }
+
     return (
         <>
             <div className="main-container">
@@ -38,7 +123,7 @@ function SuggestionBox() {
         <div className="suggestions-question">
             <h2>Suggestion Questions</h2>
             <div>
-                <p>What is 1 + 1...</p>
+                <p>(1 + 1), (2 * 3), (4 / 2) ...</p>
                 <p>What animal lives in continent...</p>
                 <p>give me a random number...</p>
                 <p>generate a random quote...</p>
