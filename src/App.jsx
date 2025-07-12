@@ -78,7 +78,7 @@ function App() {
 
         if (valueInput.toLowerCase().includes("number")) {
             const randomNumber = Math.floor(Math.random() * 1000);
-            setAnswerInput(randomNumber);
+            setAnswerInput(`Here is your random number ${randomNumber}.`);
             console.log(randomNumber);
             return;
         }

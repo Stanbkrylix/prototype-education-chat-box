@@ -27,3 +27,12 @@
     height: 300px;
     border: 1px solid white;
 }
+.input-box input {
+    width: 80%;
+    font-size: 1.2rem;
+    padding: 0.3rem;
+    margin: 0 0.3rem 0 0;
+}
+.input-box button {
+    padding: 0.4rem;
+}
