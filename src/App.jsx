@@ -1,35 +1,72 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { evaluate } from "mathjs";
+
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
+    const [valueInput, setValueInput] = useState("");
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    function handleInputChange(e) {
+        setValueInput(e.target.value);
+    }
+
+    function handleClick() {
+        if (!valueInput) {
+            alert("Please type a question, example are in the suggestion box");
+            return;
+        }
+
+        console.log(valueInput);
+    }
+    return (
+        <>
+            <div className="main-container">
+                <SuggestionBox />
+                <ChatBox
+                    valueInput={valueInput}
+                    handleInputChange={handleInputChange}
+                    handleClick={handleClick}
+                />
+            </div>
+        </>
+    );
 }
 
-export default App
+function SuggestionBox() {
+    return (
+        <div className="suggestions-question">
+            <h2>Suggestion Questions</h2>
+            <div>
+                <p>What is 1 + 1...</p>
+                <p>What animal lives in continent...</p>
+                <p>give me a random number...</p>
+                <p>generate a random quote...</p>
+            </div>
+        </div>
+    );
+}
+
+function ChatBox({ valueInput, handleInputChange, handleClick }) {
+    return (
+        <div className="chat-box">
+            <div className="display-answer">
+                <h1>Educational ChatBox</h1>
+                <p className="answer">answer placeholder</p>
+            </div>
+            <div className="input-box">
+                <input
+                    placeholder=""
+                    type="text"
+                    value={valueInput}
+                    onChange={handleInputChange}
+                />
+
+                <button className="ask-it-btn" onClick={handleClick}>
+                    Ask It
+                </button>
+            </div>
+        </div>
+    );
+}
+export default App;
