@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { evaluate } from "mathjs";
+import { evaluate, random } from "mathjs";
 import continentsWithAnimals from "./AnimalArray";
 import quotes from "./Quotes";
 
@@ -8,7 +8,8 @@ import "./App.css";
 function App() {
     const [valueInput, setValueInput] = useState("");
     const [continent, setContinent] = useState([]);
-    const [answerInput, setAnswerInput] = useState("");
+    const [quote, setQuote] = useState([]);
+    const [answerInput, setAnswerInput] = useState(null);
 
     function handleInputChange(e) {
         setValueInput(e.target.value);
@@ -66,9 +67,12 @@ function App() {
         const mathPattern = /^[0-9+\-*/().\s]+$/;
 
         if (valueInput.toLowerCase().includes("quote")) {
-            const randomNumber = Math.floor(Math.random() * 1000);
-            setAnswerInput(randomNumber);
-            console.log(randomNumber);
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const selectQuote = quotes[randomIndex];
+
+            const quoteAnswer = `${selectQuote.quote} Quote by ${selectQuote.author}.`;
+            setAnswerInput(quoteAnswer);
+            console.log(answerInput);
             return;
         }
 
@@ -81,7 +85,14 @@ function App() {
 
         if (valueInput.toLowerCase().includes("animal")) {
             selectContinent();
-            console.log(continent);
+            console.log(continent[0]);
+            let continentAnswer = `The type of animals you can find in ${continent[0].name} are: `;
+
+            for (let i = 0; i < continent[0].animals.length; i++) {
+                continentAnswer += `${continent[0].animals[i]}, `;
+            }
+            setAnswerInput(continentAnswer);
+            console.log(continentAnswer);
             return;
         }
 
@@ -93,23 +104,25 @@ function App() {
         }
 
         if (valueInput.includes(valueInput[0])) {
-            calculate(valueInput);
+            const numberAnswer = calculate(valueInput);
+            setAnswerInput(`The answer to your equation is ${numberAnswer}.`);
+            console.log(answerInput);
+
             return;
         }
 
         alert("Please type a question, examples are in the suggestion box");
-        // console.log(typeof valueInput === "number");
-        // console.log(!isNaN(+valueInput));
-        // console.log(valueInput.includes(valueInput[0]));
     }
     function calculate(value) {
         try {
             const answer = evaluate(value);
-            console.log(answer);
+            // setAnswerInput(answer);
+            return answer;
         } catch (error) {
             alert(
                 `Error,(${valueInput}) is not recommended, Please type a question, example are in the suggestion box`
             );
+            return;
         }
     }
 
@@ -121,6 +134,7 @@ function App() {
                     valueInput={valueInput}
                     handleInputChange={handleInputChange}
                     handleClick={handleClick}
+                    answerInput={answerInput}
                 />
             </div>
         </>
@@ -141,16 +155,16 @@ function SuggestionBox() {
     );
 }
 
-function ChatBox({ valueInput, handleInputChange, handleClick }) {
+function ChatBox({ valueInput, handleInputChange, handleClick, answerInput }) {
     return (
         <div className="chat-box">
             <div className="display-answer">
                 <h1>Educational ChatBox</h1>
-                <p className="answer">answer placeholder</p>
+                {answerInput && <p className="answer">{answerInput} </p>}
             </div>
             <div className="input-box">
                 <input
-                    placeholder=""
+                    placeholder="Ask a question"
                     type="text"
                     value={valueInput}
                     onChange={handleInputChange}
